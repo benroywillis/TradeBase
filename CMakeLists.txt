@@ -62,7 +62,7 @@ if(${ENABLE_LINTER})
 endif()
 
 add_subdirectory("Alpha")
-#add_subdirectory("Backtesting")
+add_subdirectory("Backtesting")
 add_subdirectory("Platform")
 
 set(CLANG_FORMAT_EXCLUDE_PATTERNS "build" "vcpkg")
