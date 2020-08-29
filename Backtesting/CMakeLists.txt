@@ -12,7 +12,7 @@ set_target_properties(LastClose
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin" 
 )
 target_include_directories(LastClose PRIVATE ${Platform_Inc} ${Indicators_Inc} ${Strategies_Inc})
-target_link_libraries(LastClose PRIVATE "-lpthread" TBPlatform TBAlpha)
+target_link_libraries(LastClose PRIVATE TBPlatform TBAlpha)
 
 add_executable(SMACrossover "SMACrossBacktest.cpp")
 set_target_properties(SMACrossover
@@ -20,4 +20,4 @@ set_target_properties(SMACrossover
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin" 
 )
 target_include_directories(SMACrossover PRIVATE ${Platform_Inc} ${Indicators_Inc} ${Strategies_Inc})
-target_link_libraries(SMACrossover PRIVATE "-lpthread" TBPlatform TBAlpha)
+target_link_libraries(SMACrossover PRIVATE TBPlatform TBAlpha)

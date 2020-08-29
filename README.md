@@ -10,4 +10,3 @@ It does not work on Windows and will require some porting (OS interrupt handling
 
 ## Dependencies
 1. spdlog
-2. pthreads
