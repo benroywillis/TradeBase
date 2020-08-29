@@ -1,0 +1,10 @@
+.vscode/
+*.pyc
+*.out
+*.log
+*.swp
+tmp
+build*/
+*.csv
+.~lock*
+StatusUpdates.txt
