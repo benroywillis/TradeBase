@@ -1,6 +1,6 @@
 # TradeBase
 TradeBase is a C++ backtester for algorithmic trading systems.
-It is built to provide the base of a C++ algorithmic trader with IB C++ API. 
+A platform suitable for HFT backtesting, it is also built to provide the base of a C++ algorithmic trader with IB C++ API. 
 
 ## Building
 The C++ projects are built using CMake with LLVM 10.
