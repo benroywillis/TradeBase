@@ -220,7 +220,7 @@ bool BTAccount::updateCash( const Contract& cont, const Order& ord, double cost 
         tmpCash -= tmpShortML;
         tmpShortML = 0;
     }
-    if( !checkMaintenanceMargin( tmpShortML+tmpLongML, tmpCash ) )
+    if( !checkMaintenanceMargin( tmpShortML + tmpLongML, tmpCash ) )
     {
         return false;
     }
@@ -229,7 +229,7 @@ bool BTAccount::updateCash( const Contract& cont, const Order& ord, double cost 
     cash = tmpCash;
     shortMarginLoan = tmpShortML;
     longMarginLoan = tmpLongML;
-    marginLoan = shortMarginLoan+longMarginLoan;
+    marginLoan = shortMarginLoan + longMarginLoan;
     return true;
 }
 

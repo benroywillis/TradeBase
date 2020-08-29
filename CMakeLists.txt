@@ -22,7 +22,9 @@ if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
     message(STATUS "Setting libCXX debug flag")
 endif()
 
-set(Util_Inc "${CMAKE_CURRENT_SOURCE_DIR}/Backend/Util/")
+set(Platform_Inc "${CMAKE_CURRENT_SOURCE_DIR}/Platform/inc/")
+set(Indicators_Inc "${CMAKE_CURRENT_SOURCE_DIR}/Alpha/Indicators/inc/")
+set(Strategies_Inc "${CMAKE_CURRENT_SOURCE_DIR}/Alpha/Strategies/inc/")
 
 find_package(spdlog CONFIG REQUIRED)
 
@@ -60,7 +62,7 @@ if(${ENABLE_LINTER})
 endif()
 
 add_subdirectory("Alpha")
-add_subdirectory("Backtesting")
+#add_subdirectory("Backtesting")
 add_subdirectory("Platform")
 
 set(CLANG_FORMAT_EXCLUDE_PATTERNS "build" "vcpkg")

@@ -1,18 +1,8 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
- * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
+﻿#pragma once
+#include <memory>
+#include <string>
+#include <vector>
 
-#pragma once
-#ifndef TWS_API_CLIENT_CONTRACT_H
-#define TWS_API_CLIENT_CONTRACT_H
-
-#include "TagValue.h"
-
-/*
-	SAME_POS    = open/close leg value is same as combo
-	OPEN_POS    = open
-	CLOSE_POS   = close
-	UNKNOWN_POS = unknown
-*/
 enum LegOpenClose
 {
     SAME_POS,
@@ -137,8 +127,6 @@ struct ContractDetails
     std::string realExpirationDate;
     std::string lastTradeTime;
 
-    TagValueListSPtr secIdList;
-
     // BOND values
     std::string cusip;
     std::string ratings;
@@ -183,5 +171,3 @@ Contract::CloneComboLegs( ComboLegListSPtr& dst, const ComboLegListSPtr& src )
         dst->push_back( ComboLegSPtr( new ComboLeg( *leg ) ) );
     }
 }
-
-#endif

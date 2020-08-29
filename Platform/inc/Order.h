@@ -1,19 +1,11 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
- * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
-
 #pragma once
-#ifndef TWS_API_CLIENT_ORDER_H
-#define TWS_API_CLIENT_ORDER_H
+#include <limits>
+#include <memory>
+#include <vector>
 
-#include "OrderCondition.h"
-#include "SoftDollarTier.h"
-#include "TagValue.h"
-#include <float.h>
-#include <limits.h>
-
-#define UNSET_DOUBLE  DBL_MAX
-#define UNSET_INTEGER INT_MAX
-#define UNSET_LONG    LLONG_MAX
+constexpr double UNSET_DOUBLE = std::numeric_limits<double>::max();
+constexpr int    UNSET_INTEGER = std::numeric_limits<int>::max();
+constexpr long   UNSET_LONG = std::numeric_limits<long>::max();
 
 enum Origin
 {
@@ -56,7 +48,7 @@ typedef std::shared_ptr<OrderComboLeg> OrderComboLegSPtr;
 
 struct Order
 {
-    Order() : softDollarTier( "", "", "" )
+    Order()
     {
         // order identifier
         orderId = 0;
@@ -301,10 +293,6 @@ struct Order
 
     // ALGO ORDERS ONLY
     std::string algoStrategy;
-
-    TagValueListSPtr algoParams;
-    TagValueListSPtr smartComboRoutingParams;
-
     std::string algoId;
 
     // What-if
@@ -316,14 +304,6 @@ struct Order
 
     // models
     std::string modelCode;
-
-    // order combo legs
-    typedef std::vector<OrderComboLegSPtr>     OrderComboLegList;
-    typedef std::shared_ptr<OrderComboLegList> OrderComboLegListSPtr;
-
-    OrderComboLegListSPtr orderComboLegs;
-
-    TagValueListSPtr orderMiscOptions;
 
     //VER PEG2BENCH fields:
     int         referenceContractId;
@@ -339,14 +319,8 @@ struct Order
     int         adjustableTrailingUnit;
     double      lmtPriceOffset;
 
-    std::vector<std::shared_ptr<OrderCondition>> conditions;
-    bool                                         conditionsCancelOrder;
-    bool                                         conditionsIgnoreRth;
-
     // ext operator
     std::string extOperator;
-
-    SoftDollarTier softDollarTier;
 
     // native cash quantity
     double cashQty;
@@ -373,30 +347,4 @@ struct Order
     long long   parentPermId;
 
     UsePriceMmgtAlgo usePriceMgmtAlgo;
-
-public:
-    // Helpers
-    static void CloneOrderComboLegs( OrderComboLegListSPtr& dst, const OrderComboLegListSPtr& src );
 };
-
-inline void
-Order::CloneOrderComboLegs( OrderComboLegListSPtr& dst, const OrderComboLegListSPtr& src )
-{
-    if( !src.get() )
-        return;
-
-    dst->reserve( src->size() );
-
-    OrderComboLegList::const_iterator       iter = src->begin();
-    const OrderComboLegList::const_iterator iterEnd = src->end();
-
-    for( ; iter != iterEnd; ++iter )
-    {
-        const OrderComboLeg* leg = iter->get();
-        if( !leg )
-            continue;
-        dst->push_back( OrderComboLegSPtr( new OrderComboLeg( *leg ) ) );
-    }
-}
-
-#endif
