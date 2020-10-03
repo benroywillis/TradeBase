@@ -4,14 +4,9 @@
 #include <functional>
 #include <iterator>
 #include <map>
-#include <optional>
 #include <set>
 
 struct InputFile;
-class TimeStamp;
-class DataStruct;
-class DataArray;
-class Indicator;
 
 struct VectorPoint
 {

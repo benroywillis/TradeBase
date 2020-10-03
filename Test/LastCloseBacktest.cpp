@@ -13,7 +13,7 @@ class LastClose : public BTStrategy
 public:
     LastClose() = default;
     /// @brief Runs private methods on new data
-    void ProcessNextTick( const set<Position, positionCompare>& positions, const set<Order, OrderCompare>& openOrders, const shared_ptr<BTData>& D, vector<pair<Contract, Order>>& trades )
+    void ProcessNextTick( const set<Position*, positionCompare>& positions, const set<Order, OrderCompare>& openOrders, const shared_ptr<BTData>& D, vector<pair<Contract, Order>>& trades )
     {
         for( const auto& point : D->getCurrentPoint().Points )
         {

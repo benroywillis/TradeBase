@@ -1,14 +1,8 @@
 #pragma once
 #include "Contract.h"
+#include "DataStruct.h"
 #include "Indicator.h"
-#include "TimeStamp.h"
 #include <optional>
-
-struct TimeStamp;
-struct CandleStruct;
-struct SnapStruct;
-struct OptionStruct;
-struct DataStruct;
 
 /// Structure for holding each unique data array
 class DataArray : public BackTrader
