@@ -14,10 +14,10 @@ set_target_properties(SMACrossover
 target_include_directories(SMACrossover PRIVATE ${Platform_Inc} ${Indicators_Inc} ${Strategies_Inc})
 target_link_libraries(SMACrossover PRIVATE TBPlatform)
 
-#add_executable(HPSMA "HPSMABacktest.cpp")
-#set_target_properties(HPSMA
-#	PROPERTIES
-#    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin" 
-#)
-#target_include_directories(HPSMA PRIVATE ${Platform_Inc} ${Indicators_Inc} ${Strategies_Inc})
-#target_link_libraries(HPSMA PRIVATE TBPlatform)
+add_executable(HPSMA "HPSMABacktest.cpp")
+set_target_properties(HPSMA
+	PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin" 
+)
+target_include_directories(HPSMA PRIVATE ${Platform_Inc} ${Indicators_Inc} ${Strategies_Inc})
+target_link_libraries(HPSMA PRIVATE TBPlatform)

@@ -4,6 +4,7 @@
 #include "Order.h"
 #include "Strategy.h"
 #include <spdlog/spdlog.h>
+#include <utility>
 
 using namespace std;
 
@@ -22,9 +23,10 @@ BTBrain::BTBrain( const shared_ptr<BTData>& newData, const shared_ptr<BTStrategy
 void BTBrain::run()
 {
     auto trades = vector<pair<Contract, Order>>();
+    auto openOrders = set<Order, OrderCompare>();
     do
     {
-        Strategy->ProcessNextTick( positions, set<Order, OrderCompare>(), Data, trades );
+        Strategy->ProcessNextTick( positions, openOrders, Data, trades );
         if( !trades.empty() )
         {
             for( const auto& trade : trades )

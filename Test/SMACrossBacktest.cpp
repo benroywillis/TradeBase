@@ -88,7 +88,7 @@ int main( int argc, char* argv[] )
     auto                           SMAL = make_unique<SMA>( slow );
     Indicators.push_back( SMAS.get() );
     Indicators.push_back( SMAL.get() );
-    auto                   Data = make_shared<BTData>( ReadInputs( argc, argv, csv ) );
+    auto                   Data = make_shared<BTData>( ReadInputs( argc, argv ), Indicators );
     shared_ptr<BTStrategy> Strategy = make_shared<SMACrossover>();
     auto                   Brain = make_unique<BTBrain>( Data, Strategy, conf );
     Brain->run();

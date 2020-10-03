@@ -8,3 +8,4 @@ build*/
 *.csv
 .~lock*
 StatusUpdates.txt
+Data/

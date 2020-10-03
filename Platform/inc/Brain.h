@@ -11,17 +11,17 @@ class BTData;
 struct OrderCompare
 {
     using is_transparent = void;
-    bool operator()( const std::pair<Contract, Order>& lhs, const std::pair<Contract, Order>& rhs ) const
+    bool operator()( const Order& lhs, const Order& rhs ) const
     {
-        return lhs.first.conId < rhs.first.conId;
+        return lhs.conId < rhs.conId;
     }
-    bool operator()( const std::pair<Contract, Order>& lhs, long rhs ) const
+    bool operator()( const Order& lhs, const Contract& rhs ) const
     {
-        return lhs.first.conId < rhs;
+        return lhs.conId < rhs.conId;
     }
-    bool operator()( long lhs, const std::pair<Contract, Order>& rhs ) const
+    bool operator()( const Contract& lhs, const Order& rhs ) const
     {
-        return lhs < rhs.first.conId;
+        return lhs.conId < rhs.conId;
     }
 };
 
