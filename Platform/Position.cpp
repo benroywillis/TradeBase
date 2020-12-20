@@ -126,6 +126,34 @@ double Position::updateUPnL( const GlobalTimePoint& point )
     return UPnL;
 }
 
+double Position::updateMTM( const GlobalTimePoint& point )
+{
+    bool found = false;
+    for( const auto& point : point.Points )
+    {
+        if( point.p_Vector->contract.conId == contract->conId )
+        {
+            currentPrice = point.p_Point->get();
+            found = true;
+            break;
+        }
+    }
+    if( !found )
+    {
+        return UPnL;
+    }
+    if( positionSize > 0 )
+    {
+
+        UPnL = positionSize * currentPrice - positionSize * avgPrice;
+    }
+    else
+    {
+        UPnL = ( -1 ) * positionSize * avgPrice - ( -1 ) * positionSize * currentPrice;
+    }
+    return UPnL;
+}
+
 void Position::calcAvgPrice()
 {
     if( !positionExecutions.empty() )

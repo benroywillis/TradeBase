@@ -380,7 +380,7 @@ optional<const VectorPoint> BTData::getPreviousVectorPoint( long vecId ) const
         return nullopt;
     }
     auto prevPoint = prev( currentTime );
-    while( prevPoint != TimeLine.begin() )
+    do
     {
         for( const auto& vec : prevPoint->second.Points )
         {
@@ -390,7 +390,7 @@ optional<const VectorPoint> BTData::getPreviousVectorPoint( long vecId ) const
             }
         }
         prevPoint = prev( prevPoint );
-    }
+    } while( prevPoint != TimeLine.begin() );
     return nullopt;
 }
 

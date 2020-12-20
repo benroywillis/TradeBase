@@ -69,10 +69,11 @@ public:
     /// Checks cash, exchange, margin requirements, etc. If the order is filled, the returned pointer is valid. Else the pointer is Null
     std::vector<Position>  processTrade( const std::pair<Contract, Order>& );
     std::vector<Position*> getPositions() const;
-    double                 getCash() const;
-    double                 getMarginLoan() const;
-    double                 getPnL() const;
-    double                 getUPnL() const;
+    //    double                 getCash() const;
+    //    double                 getMarginLoan() const;
+    //    double                 getPnL() const;
+    //    double                 getUPnL() const;
+    double getMTMChange() const;
 
     std::shared_ptr<BTData> Data;
     /// @brief  Strategy that will be implemented in the backtest.
@@ -80,36 +81,38 @@ public:
     std::shared_ptr<BTStrategy> Strategy;
 
 private:
-    void                                 update( const Position& );
-    std::optional<double>                getPrice( const Contract& );
-    std::optional<Execution>             Execute( const Contract&, const Order&, double );
-    bool                                 updateCash( const Contract&, const Order&, double );
-    void                                 updatePnLs( const GlobalTimePoint& );
-    bool                                 checkMaintenanceMargin( double, double ) const;
+    void                     update( const Position& );
+    std::optional<double>    getPrice( const Contract& );
+    std::optional<Execution> Execute( const Contract&, const Order&, double );
+    //    bool                                 updateCash( const Contract&, const Order&, double );
+    void MarkToMarket( const GlobalTimePoint& );
+    //    bool                                 checkMaintenanceMargin( double, double ) const;
     std::set<Position*, positionCompare> positions;
     const CommissionScheme*              scheme;
     double                               totalCommission;
     /// @brief  Holds all positions in the account.
-    bool margin;
+    //    bool margin;
     /// Equity within the account. Used for buying power calculations
-    double accountEquity;
+    //    double accountEquity;
     /// Amount of equity at the start of the test
-    double startEquity;
+    //    double startEquity;
     /// @brief  Current cash amount in the account
-    double cash;
+    //    double cash;
     /// Amount of money our securities are worth, total
-    double positionsValue;
+    //    double positionsValue;
     /// Amount of open margin loan in the account
-    double marginLoan;
+    //    double marginLoan;
     /// Amount of borrowed money for opening long positions
-    double longMarginLoan;
+    //    double longMarginLoan;
     /// Amount of margin for opening short positions
-    double shortMarginLoan;
+    //    double shortMarginLoan;
     /// Controls how much equity must be maintained in a margin account
     /// IB does not have a per-contract maintenance margin requirement, so only the account is necessary
-    double maintenanceMargin;
+    //    double maintenanceMargin;
     /// PnL = cash + CostBases - startCash
-    double PnL;
+    //    double PnL;
     /// UPnL = PositionValues - CostBases
-    double UPnL;
+    //    double UPnL;
+    /// MarkedToMarket Change
+    double MTMChange;
 };

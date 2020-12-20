@@ -20,23 +20,23 @@ public:
             auto prevPoint = D->getPreviousVectorPoint( point.p_Vector->vectorId );
             if( !prevPoint )
             {
+                cout << "Did not have a previous point to process" << endl;
+                ;
                 return;
             }
             double price = point.p_Point->get();
             double prevPrice = prevPoint->p_Point->get();
-            bool   buySignal = price > prevPrice;
-            bool   sellSignal = price < prevPrice;
             auto   tradeContract = point.p_Vector->contract;
-            if( buySignal )
+            if( price > prevPrice )
             {
                 auto tradeOrder = getOrder( true );
-                spdlog::info( "Buying 1 share at " + tradeContract.symbol );
+                spdlog::info( "Buying 1 share of " + tradeContract.symbol + " at price " + to_string( price ) + "." );
                 trades.emplace_back( pair( tradeContract, tradeOrder ) );
             }
-            if( sellSignal )
+            else
             {
                 auto tradeOrder = getOrder( false );
-                spdlog::info( "Selling 1 share " + tradeContract.symbol );
+                spdlog::info( "Selling 1 share of " + tradeContract.symbol + " at price " + to_string( price ) + "." );
                 trades.emplace_back( pair( tradeContract, tradeOrder ) );
             }
         }

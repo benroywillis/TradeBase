@@ -5,6 +5,7 @@ set_target_properties(LastClose
 )
 target_include_directories(LastClose PRIVATE ${Platform_Inc})
 target_link_libraries(LastClose PRIVATE TBPlatform)
+add_test(NAME LC COMMAND LastClose ${CMAKE_SOURCE_DIR}/Data/TestData.csv)
 
 add_executable(SMACrossover "SMACrossBacktest.cpp")
 set_target_properties(SMACrossover

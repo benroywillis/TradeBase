@@ -36,6 +36,7 @@ public:
     /// Updates both realized and unrealized PnL
     double updatePnL( double );
     double updateUPnL( const GlobalTimePoint& );
+    double updateMTM( const GlobalTimePoint& );
 
     /// @brief Update the queue of executions
     ///

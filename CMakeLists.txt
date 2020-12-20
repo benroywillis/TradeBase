@@ -51,7 +51,11 @@ if(${ENABLE_LINTER})
     endif()
 endif()
 
-add_subdirectory("Test")
+option(ENABLE_TESTING "Build test suite" ON)
+if(${ENABLE_TESTING})
+    enable_testing()
+    add_subdirectory("Test")
+endif()
 add_subdirectory("Platform")
 
 set(CLANG_FORMAT_EXCLUDE_PATTERNS "build" "vcpkg")

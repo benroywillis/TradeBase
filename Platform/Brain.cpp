@@ -16,7 +16,6 @@ BTBrain::BTBrain( const shared_ptr<BTData>& newData, const shared_ptr<BTStrategy
 {
     Strategy = newStrategy;
     Data = newData;
-    margin = conf.margin;
     scheme = conf.scheme;
 }
 
@@ -42,7 +41,8 @@ void BTBrain::run()
             }
         }
         trades.clear();
-        updatePnLs( Data->getCurrentPoint() );
+        // mark to market
+        MarkToMarket( Data->getCurrentPoint() );
     } while( Data->incrementTime() );
 }
 
@@ -107,21 +107,16 @@ optional<Execution> BTBrain::Execute( const Contract& cont, const Order& ord, do
         tradeCommission = 0.0;
         newCostBasis = costBasis;
     }
-    // update total commission cost for the backtest
     totalCommission += tradeCommission;
-    if( updateCash( cont, ord, newCostBasis ) )
-    {
-        auto newExec = make_optional<Execution>();
-        newExec->avgPrice = newCostBasis / ord.totalQuantity;
-        newExec->price = newExec->avgPrice;
-        newExec->shares = ord.totalQuantity;
-        newExec->orderId = ord.orderId;
-        newExec->cumQty = ord.totalQuantity;
-        newExec->clientId = ClientID;
-        newExec->side = ord.action == "BUY" ? "BOT" : "SLD";
-        return newExec;
-    }
-    return nullopt;
+    auto newExec = make_optional<Execution>();
+    newExec->avgPrice = newCostBasis / ord.totalQuantity;
+    newExec->price = newExec->avgPrice;
+    newExec->shares = ord.totalQuantity;
+    newExec->orderId = ord.orderId;
+    newExec->cumQty = ord.totalQuantity;
+    newExec->clientId = ClientID;
+    newExec->side = ord.action == "BUY" ? "BOT" : "SLD";
+    return newExec;
 }
 
 optional<double> BTBrain::getPrice( const Contract& con )
@@ -134,6 +129,7 @@ optional<double> BTBrain::getPrice( const Contract& con )
     return nullopt;
 }
 
+/*
 bool BTBrain::updateCash( const Contract& cont, const Order& ord, double cost )
 {
     // 0 order size check
@@ -303,24 +299,14 @@ bool BTBrain::updateCash( const Contract& cont, const Order& ord, double cost )
     marginLoan = shortMarginLoan + longMarginLoan;
     return true;
 }
+*/
 
-void BTBrain::updatePnLs( const GlobalTimePoint& point )
+void BTBrain::MarkToMarket( const GlobalTimePoint& point )
 {
-    UPnL = 0.0;
-    PnL = 0.0;
-    positionsValue = 0.0;
+    MTMChange = 0.0;
     for( const auto& pos : positions )
     {
-        UPnL += pos->updateUPnL( point );
-        PnL += pos->getPnL();
-        if( pos->longPosition() )
-        {
-            positionsValue += pos->getCashValue( point );
-        }
-        else
-        {
-            positionsValue -= pos->getCashValue( point );
-        }
+        MTMChange += pos->updateMTM( point );
     }
 }
 
@@ -329,16 +315,19 @@ std::vector<Position*> BTBrain::getPositions() const
     vector<Position*> returnVec( positions.begin(), positions.end() );
     return returnVec;
 }
-
+/*
 double BTBrain::getCash() const
 {
     return cash;
 }
+*/
+/*
 double BTBrain::getMarginLoan() const
 {
     return marginLoan;
 }
-
+*/
+/*
 bool BTBrain::checkMaintenanceMargin( double mL, double c ) const
 {
     if( mL > ( ( ( 1 / maintenanceMargin ) ) - 1 ) * ( ( positionsValue + c ) ) )
@@ -348,15 +337,10 @@ bool BTBrain::checkMaintenanceMargin( double mL, double c ) const
     }
     return true;
 }
-
-double BTBrain::getPnL() const
+*/
+double BTBrain::getMTMChange() const
 {
-    return PnL;
-}
-
-double BTBrain::getUPnL() const
-{
-    return UPnL;
+    return MTMChange;
 }
 
 double BTBrain::getTotalCommission() const
