@@ -120,11 +120,10 @@ inline void ReadInputs( int argc, char* argv[], std::vector<InputFile>& tickerIn
 inline void PrintResults( const std::unique_ptr<BTBrain>& brain )
 {
     std::cout << std::fixed << std::setprecision( 2 );
-    std::cout << "Ending marked-to-market change was " << brain->getMTMChange() << std::endl;
     std::cout << "Total commission was " << brain->getTotalCommission() << std::endl;
-    //std::cout << "PnL was " << brain->getPnL() << std::endl;
-    //std::cout << "UPnL was " << brain->getUPnL() << std::endl;
-    //std::cout << "Total account change was " << brain->getUPnL() + brain->getPnL() << std::endl;
+    std::cout << "Maximum gain was " << brain->getMaximumGain() << std::endl;
+    std::cout << "Maximum drawdown was " << brain->getMaximumDrawdown() << std::endl;
+    std::cout << "Ending marked-to-market change was " << brain->getMTMChange() << std::endl;
     std::cout << "Ending positions are " << std::endl;
     for( auto& index : brain->getPositions() )
     {

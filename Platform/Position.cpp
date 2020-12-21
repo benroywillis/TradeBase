@@ -71,7 +71,7 @@ double Position::getCashValue() const
 
 double Position::getCashValue( const GlobalTimePoint& point )
 {
-    updateUPnL( point );
+    MarkToMarket( point );
     return currentPrice * positionSize;
 }
 
@@ -96,37 +96,7 @@ double Position::updatePnL( double update )
     return PnL;
 }
 
-double Position::updateUPnL( const GlobalTimePoint& point )
-{
-    // Should only iterate once but if it doesn't it will pick the last data vector
-    // TODO: once delta-neutral contracts are a thing, this will have to support multiple data vectors
-    bool found = false;
-    for( const auto& point : point.Points )
-    {
-        if( point.p_Vector->contract.conId == contract->conId )
-        {
-            currentPrice = point.p_Point->get();
-            found = true;
-            break;
-        }
-    }
-    if( !found )
-    {
-        return UPnL;
-    }
-    if( positionSize > 0 )
-    {
-
-        UPnL = positionSize * currentPrice - positionSize * avgPrice;
-    }
-    else
-    {
-        UPnL = ( -1 ) * positionSize * avgPrice - ( -1 ) * positionSize * currentPrice;
-    }
-    return UPnL;
-}
-
-double Position::updateMTM( const GlobalTimePoint& point )
+double Position::MarkToMarket( const GlobalTimePoint& point )
 {
     bool found = false;
     for( const auto& point : point.Points )
@@ -144,7 +114,6 @@ double Position::updateMTM( const GlobalTimePoint& point )
     }
     if( positionSize > 0 )
     {
-
         UPnL = positionSize * currentPrice - positionSize * avgPrice;
     }
     else
