@@ -56,12 +56,6 @@ void BTBrain::update( const Position& newPosition )
             auto newExec = newPosition.getLastExecution();
             pos->updateQueue( newExec );
         }
-        // now check if the position has closed
-        /*if( pos->getPositionSize() == 0 )
-        {
-            PnL += pos->getPnL();
-            positions.erase( pos );
-        }*/
     }
     else
     {

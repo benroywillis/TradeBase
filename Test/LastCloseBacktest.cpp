@@ -75,6 +75,5 @@ int main( int argc, char* argv[] )
     {
         return 1;
     }
-    PrintResults( Brain );
     return 0;
 }

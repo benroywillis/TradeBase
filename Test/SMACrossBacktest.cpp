@@ -9,9 +9,8 @@
 
 using namespace std;
 
-constexpr long STARTINGCASH = 100000;
-constexpr int  fast = 50;
-constexpr int  slow = 200;
+constexpr int fast = 5;
+constexpr int slow = 20;
 
 class SMA : public BTIndicator
 {
@@ -68,11 +67,13 @@ public:
             {
                 auto tradeOrder = getOrder( true );
                 trades.emplace_back( pair( tradeContract, tradeOrder ) );
+                spdlog::info( "Buying 1 share of " + tradeContract.symbol + " at price " + to_string( point.p_Point->get() ) + "." );
             }
             if( sellSignal )
             {
                 auto tradeOrder = getOrder( false );
                 trades.emplace_back( pair( tradeContract, tradeOrder ) );
+                spdlog::info( "Selling 1 share of " + tradeContract.symbol + " at price " + to_string( point.p_Point->get() ) + "." );
             }
         }
     }
@@ -81,7 +82,7 @@ public:
 int main( int argc, char* argv[] )
 {
     auto                           csv = InputFile( "", "AMZN", "CONCYC", "STK", "SMART", "USD" );
-    shared_ptr<IBCommissionScheme> morphedScheme = make_shared<IBCommissionScheme>( 0, 0, 1, 1 );
+    shared_ptr<IBCommissionScheme> morphedScheme = make_shared<IBCommissionScheme>( 0, 0, 0, 0 );
     auto                           conf = Configure( morphedScheme.get(), false );
     auto                           Indicators = vector<BTIndicator*>();
     auto                           SMAS = make_unique<SMA>( fast );
@@ -92,6 +93,31 @@ int main( int argc, char* argv[] )
     shared_ptr<BTStrategy> Strategy = make_shared<SMACrossover>();
     auto                   Brain = make_unique<BTBrain>( Data, Strategy, conf );
     Brain->run();
-    PrintResults( Brain );
+    // compare results to those known to be correct
+    bool error = false;
+    if( Brain->getPositions()[0]->getPositionSize() != 18 )
+    {
+        spdlog::error( "Ending position size was " + to_string( Brain->getPositions()[0]->getPositionSize() ) + " and the correct answer is 15!" );
+        error = true;
+    }
+    if( fabs( Brain->getMaximumGain() - 165.48 ) >= 0.01 )
+    {
+        spdlog::error( "Maximum gain was " + to_string( Brain->getMaximumGain() ) + " and the correct answer is 177.298096!" );
+        error = true;
+    }
+    if( fabs( Brain->getMaximumDrawdown() + 215.307 ) >= 0.01 )
+    {
+        spdlog::error( "Maximum drawdown was " + to_string( Brain->getMaximumDrawdown() ) + " and the correct answer is -55.553223!" );
+        error = true;
+    }
+    if( fabs( Brain->getMTMChange() + 37.12 ) >= 0.01 )
+    {
+        spdlog::error( "Ending Marked To Market change was " + to_string( Brain->getMTMChange() ) + " and the correct ansewr is 177.298096!" );
+        error = true;
+    }
+    if( error )
+    {
+        return 1;
+    }
     return 0;
 }
