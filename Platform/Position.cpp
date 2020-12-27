@@ -153,8 +153,8 @@ void Position::updateQueue( Execution& newExec )
             // if our queue contains offsetting shares
             if( positionExecutions.front().side == "SLD" )
             {
-                // amount of money borrowed -> costbasis
-                // amount of money received from buyback -> proceeds
+                // we are buying back short shares, and possibly opening long shares
+                // PnL = position money - execution money
                 int transactionShares = newExec.shares;
                 int diff = transactionShares - positionExecutions.front().shares;
                 while( true )
@@ -199,8 +199,8 @@ void Position::updateQueue( Execution& newExec )
             // if our queue contains offsetting shares
             if( positionExecutions.front().side == "BOT" )
             {
-                // amount of money spent buying long -> costbasis
-                // amount of money received selling shares -> proceeds
+                // we are selling long shares, and possibly opening short shares
+                // PnL = execution money - position money
                 int transactionShares = newExec.shares;
                 int diff = transactionShares - positionExecutions.front().shares;
                 while( true )

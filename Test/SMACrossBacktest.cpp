@@ -102,17 +102,17 @@ int main( int argc, char* argv[] )
     }
     if( fabs( Brain->getMaximumGain() - 165.48 ) >= 0.01 )
     {
-        spdlog::error( "Maximum gain was " + to_string( Brain->getMaximumGain() ) + " and the correct answer is 177.298096!" );
+        spdlog::error( "Maximum gain was " + to_string( Brain->getMaximumGain() ) + " and the correct answer is 165.48!" );
         error = true;
     }
     if( fabs( Brain->getMaximumDrawdown() + 215.307 ) >= 0.01 )
     {
-        spdlog::error( "Maximum drawdown was " + to_string( Brain->getMaximumDrawdown() ) + " and the correct answer is -55.553223!" );
+        spdlog::error( "Maximum drawdown was " + to_string( Brain->getMaximumDrawdown() ) + " and the correct answer is -215.307!" );
         error = true;
     }
     if( fabs( Brain->getMTMChange() + 37.12 ) >= 0.01 )
     {
-        spdlog::error( "Ending Marked To Market change was " + to_string( Brain->getMTMChange() ) + " and the correct ansewr is 177.298096!" );
+        spdlog::error( "Ending Marked To Market change was " + to_string( Brain->getMTMChange() ) + " and the correct answer is -37.12!" );
         error = true;
     }
     if( error )

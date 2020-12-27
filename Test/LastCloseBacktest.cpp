@@ -68,7 +68,7 @@ int main( int argc, char* argv[] )
     }
     if( fabs( Brain->getMTMChange() - 177.298096 ) >= 0.01 )
     {
-        spdlog::error( "Ending Marked To Market change was " + to_string( Brain->getMTMChange() ) + " and the correct ansewr is 177.298096!" );
+        spdlog::error( "Ending Marked To Market change was " + to_string( Brain->getMTMChange() ) + " and the correct answer is 177.298096!" );
         error = true;
     }
     if( error )
