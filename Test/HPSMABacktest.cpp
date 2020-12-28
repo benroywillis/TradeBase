@@ -64,14 +64,6 @@ public:
             {
                 continue;
             }
-            /*for( const auto& pa : openOrders )
-            {
-                spdlog::info( "Open order for symbol " + pa.symbol + ", secType " + pa.secType + ", conId " + to_string( pa.conId ) + " right " + pa.right + " strike " + to_string( pa.strike ) + " expiry " + pa.lastTradeDateOrContractMonth );
-                if( pa.conId == point.p_Vector->contract.conId )
-                {
-                    continue;
-                }
-            }*/
 
             // Find a position in the account that already exists for this contract
             Position* existingPos = nullptr;

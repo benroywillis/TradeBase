@@ -22,8 +22,6 @@ if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
 endif()
 
 set(Platform_Inc "${CMAKE_CURRENT_SOURCE_DIR}/Platform/inc/")
-#set(Indicators_Inc "${CMAKE_CURRENT_SOURCE_DIR}/Alpha/Indicators/inc/")
-#set(Strategies_Inc "${CMAKE_CURRENT_SOURCE_DIR}/Alpha/Strategies/inc/")
 
 find_package(spdlog CONFIG REQUIRED)
 
