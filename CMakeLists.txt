@@ -10,9 +10,8 @@ if (CMAKE_GENERATOR MATCHES "Ninja")
     set(CMAKE_USER_MAKE_RULES_OVERRIDE "${CMAKE_BINARY_DIR}/CLANGMakeRulesOverwrite.cmake" CACHE INTERNAL "")
 endif ()
 
-project(TradeBase VERSION 0.0.1)
+project(TradeBase VERSION 0.1)
 set (CMAKE_CXX_STANDARD 17)
-set (CMAKE_C_STANDARD 11)
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Debug")
 endif()
@@ -23,8 +22,6 @@ if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
 endif()
 
 set(Platform_Inc "${CMAKE_CURRENT_SOURCE_DIR}/Platform/inc/")
-set(Indicators_Inc "${CMAKE_CURRENT_SOURCE_DIR}/Alpha/Indicators/inc/")
-set(Strategies_Inc "${CMAKE_CURRENT_SOURCE_DIR}/Alpha/Strategies/inc/")
 
 find_package(spdlog CONFIG REQUIRED)
 
@@ -43,30 +40,24 @@ if(${ENABLE_LINTER})
             --warnings-as-errors=*;
             --checks=readability-*,-readability-magic-numbers,performance-*,portability-*,modernize-*,-modernize-use-trailing-return-type,-cppcoreguidelines-*;
         )
-        set(CMAKE_C_CLANG_TIDY 
-            ${TIDY};
-            --warnings-as-errors=*;
-            --checks=readability-*,-readability-magic-numbers,performance-*,portability-*,-clang-analyzer-security.insecureAPI.*;
-        )
         add_compile_options(-Werror)
     else()
         set(CMAKE_CXX_CLANG_TIDY 
             ${TIDY};
             --checks=readability-*,-readability-magic-numbers,performance-*,portability-*,modernize-*,-modernize-use-trailing-return-type,-cppcoreguidelines-*;
         )
-        set(CMAKE_C_CLANG_TIDY 
-            ${TIDY};
-            --checks=readability-*,-readability-magic-numbers,performance-*,portability-*,-clang-analyzer-security.insecureAPI.*;
-        )
     endif()
 endif()
 
-add_subdirectory("Alpha")
-add_subdirectory("Backtesting")
+option(ENABLE_TESTING "Build test suite" ON)
+if(${ENABLE_TESTING})
+    enable_testing()
+    add_subdirectory("Test")
+endif()
 add_subdirectory("Platform")
 
 set(CLANG_FORMAT_EXCLUDE_PATTERNS "build" "vcpkg")
-file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.h *.c)
+file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.hpp *.h)
 foreach (SOURCE_FILE ${ALL_SOURCE_FILES})
     foreach (EXCLUDE_PATTERN ${CLANG_FORMAT_EXCLUDE_PATTERNS})
         string(FIND ${SOURCE_FILE} ${EXCLUDE_PATTERN} PROJECT_TRDPARTY_DIR_FOUND)
@@ -76,9 +67,15 @@ foreach (SOURCE_FILE ${ALL_SOURCE_FILES})
     endforeach()
 endforeach ()
 
+find_program(FORMAT NAMES clang-format-10 clang-format)
+if(${FORMAT} STREQUAL "FORMAT-NOTFOUND")
+message(FATAL_ERROR "clang-format not found! Necessary for linting!")
+else()
+message(STATUS "Found clang-format in ${FORMAT}")
+endif()
 add_custom_target(
     format
-    COMMAND /usr/bin/clang-format-10
+    COMMAND ${FORMAT}
     -style=file
     -i
     ${ALL_SOURCE_FILES}

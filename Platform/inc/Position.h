@@ -35,7 +35,7 @@ public:
 
     /// Updates both realized and unrealized PnL
     double updatePnL( double );
-    double updateUPnL( const GlobalTimePoint& );
+    double MarkToMarket( const GlobalTimePoint& );
 
     /// @brief Update the queue of executions
     ///

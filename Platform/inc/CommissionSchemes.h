@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 
 /// The default commission scheme is that everything is free. Only STK and OPT are supported
 struct CommissionScheme
@@ -11,11 +10,11 @@ struct CommissionScheme
     double         fees;
     double         pershare;
     double         percontract;
-    virtual double perShare( int shares )
+    virtual double perShare( int shares ) const
     {
         return pershare;
     }
-    virtual double perContract( double premium, int contracts )
+    virtual double perContract( double premium, int contracts ) const
     {
         return percontract;
     }
@@ -37,11 +36,11 @@ struct IBCommissionScheme : public CommissionScheme
         pershare = newShare;
         percontract = newContract;
     }
-    double perShare( int shares ) override
+    double perShare( int shares ) const override
     {
         return pershare;
     }
-    double perContract( double premium, int contracts ) override
+    double perContract( double premium, int contracts ) const override
     {
         if( contracts == 1 )
         {

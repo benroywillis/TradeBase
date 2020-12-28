@@ -1,6 +1,5 @@
 #pragma once
 #include "TimeStamp.h"
-#include <string>
 
 /// Structure for holding data
 struct Data

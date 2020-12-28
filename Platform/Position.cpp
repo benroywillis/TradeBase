@@ -71,7 +71,7 @@ double Position::getCashValue() const
 
 double Position::getCashValue( const GlobalTimePoint& point )
 {
-    updateUPnL( point );
+    MarkToMarket( point );
     return currentPrice * positionSize;
 }
 
@@ -96,10 +96,8 @@ double Position::updatePnL( double update )
     return PnL;
 }
 
-double Position::updateUPnL( const GlobalTimePoint& point )
+double Position::MarkToMarket( const GlobalTimePoint& point )
 {
-    // Should only iterate once but if it doesn't it will pick the last data vector
-    // TODO: once delta-neutral contracts are a thing, this will have to support multiple data vectors
     bool found = false;
     for( const auto& point : point.Points )
     {
@@ -116,7 +114,6 @@ double Position::updateUPnL( const GlobalTimePoint& point )
     }
     if( positionSize > 0 )
     {
-
         UPnL = positionSize * currentPrice - positionSize * avgPrice;
     }
     else
@@ -156,8 +153,8 @@ void Position::updateQueue( Execution& newExec )
             // if our queue contains offsetting shares
             if( positionExecutions.front().side == "SLD" )
             {
-                // amount of money borrowed -> costbasis
-                // amount of money received from buyback -> proceeds
+                // we are buying back short shares, and possibly opening long shares
+                // PnL = position money - execution money
                 int transactionShares = newExec.shares;
                 int diff = transactionShares - positionExecutions.front().shares;
                 while( true )
@@ -202,8 +199,8 @@ void Position::updateQueue( Execution& newExec )
             // if our queue contains offsetting shares
             if( positionExecutions.front().side == "BOT" )
             {
-                // amount of money spent buying long -> costbasis
-                // amount of money received selling shares -> proceeds
+                // we are selling long shares, and possibly opening short shares
+                // PnL = execution money - position money
                 int transactionShares = newExec.shares;
                 int diff = transactionShares - positionExecutions.front().shares;
                 while( true )
