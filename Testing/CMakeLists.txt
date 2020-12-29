@@ -5,7 +5,7 @@ set_target_properties(LastClose
 )
 target_include_directories(LastClose PRIVATE ${Platform_Inc})
 target_link_libraries(LastClose PRIVATE TBPlatform)
-add_test(NAME LC COMMAND LastClose ${CMAKE_SOURCE_DIR}/Test/TestData2.csv)
+add_test(NAME LC COMMAND LastClose ${CMAKE_SOURCE_DIR}/Testing/TestDataShort.csv)
 
 add_executable(SMACrossover "SMACrossBacktest.cpp")
 set_target_properties(SMACrossover
@@ -14,7 +14,7 @@ set_target_properties(SMACrossover
 )
 target_include_directories(SMACrossover PRIVATE ${Platform_Inc} ${Indicators_Inc} ${Strategies_Inc})
 target_link_libraries(SMACrossover PRIVATE TBPlatform)
-add_test(NAME SMAC COMMAND SMACrossover ${CMAKE_SOURCE_DIR}/Test/TestData2.csv)
+add_test(NAME SMAC COMMAND SMACrossover ${CMAKE_SOURCE_DIR}/Testing/TestDataShort.csv)
 
 add_executable(HPSMA "HPSMABacktest.cpp")
 set_target_properties(HPSMA
@@ -23,4 +23,4 @@ set_target_properties(HPSMA
 )
 target_include_directories(HPSMA PRIVATE ${Platform_Inc} ${Indicators_Inc} ${Strategies_Inc})
 target_link_libraries(HPSMA PRIVATE TBPlatform)
-add_test(NAME HPSMAT COMMAND HPSMA ${CMAKE_SOURCE_DIR}/Test/TestData2.csv)
+add_test(NAME HPSMAT COMMAND HPSMA ${CMAKE_SOURCE_DIR}/Testing/TestDataShort.csv)

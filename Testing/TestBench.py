@@ -57,6 +57,7 @@ for i in range( len(inData)-1, -1, -1 ):
 print("LastClose:")
 print("Maximum gain was: $"+str(maxGain))
 print("Maximum drawdown was: $"+str(maxDrawdown))
+print("Ending Marked To Market Change was: $"+str(PnL+UPnL))
 print("Ending position size is "+str(len(positions)))
 
 ## SMACrossover
@@ -103,6 +104,7 @@ for i in range( len(inData)-1, -1, -1 ):
 print("SMACrossover:")
 print("Maximum gain was: $"+str(maxGain))
 print("Maximum drawdown was: $"+str(maxDrawdown))
+print("Ending Marked To Market Change was: $"+str(PnL+UPnL))
 print("Ending position size is "+str(len(positions)))
 
 ## HPSMA
@@ -154,4 +156,5 @@ for i in range( len(inData)-1, -1, -1 ):
 print("HPSMA:")
 print("Maximum gain was: $"+str(maxGain))
 print("Maximum drawdown was: $"+str(maxDrawdown))
+print("Ending Marked To Market Change was: $"+str(PnL+UPnL))
 print("Ending position size is "+str(len(positions)))
