@@ -16,6 +16,6 @@ There are three general steps to backtest your strategy
 2. Construct a driver program
    - Use any of the test programs as an example to start with
 3. Run the resulting program inputting data to the program via csv file
-   - The program can support multiple csv inputs. Each csv argument is positional, order does not matter, and a position will be allocated for each.
+   - The program can support multiple csv inputs. Each csv argument is positional, order does not matter, and a position will be allocated for each
    - The csv file format should be exactly like Testing/TestDataShort.csv (or TestDataLong.csv, they're the same). For more detail, see documentation in Platform/Data.h
    - Visual results not supported
