@@ -52,7 +52,7 @@ endif()
 option(ENABLE_TESTING "Build test suite" ON)
 if(${ENABLE_TESTING})
     enable_testing()
-    add_subdirectory("Test")
+    add_subdirectory("Testing")
 endif()
 add_subdirectory("Platform")
 
