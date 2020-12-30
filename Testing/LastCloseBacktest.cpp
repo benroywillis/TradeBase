@@ -4,9 +4,11 @@
 #include "Position.h"
 #include "Strategy.h"
 #include "Util.hpp"
+#include "matplotlibcpp.h"
 #include <spdlog/spdlog.h>
 
 using namespace std;
+namespace plt = matplotlibcpp;
 
 class LastClose : public BTStrategy
 {
@@ -75,5 +77,7 @@ int main( int argc, char* argv[] )
     {
         return 1;
     }
+    plt::plot( Brain->getMTMHistory() );
+    plt::show();
     return 0;
 }

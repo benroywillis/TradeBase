@@ -3,8 +3,8 @@ set_target_properties(LastClose
 	PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin" 
 )
-target_include_directories(LastClose PRIVATE ${Platform_Inc})
-target_link_libraries(LastClose PRIVATE TBPlatform)
+target_include_directories(LastClose PRIVATE ${Platform_Inc} "/home/ben/FinancialDevelopers/matplotlib-cpp/" "/usr/include/python3.8")
+target_link_libraries(LastClose PRIVATE TBPlatform python3.8)
 add_test(NAME LC COMMAND LastClose ${CMAKE_SOURCE_DIR}/Testing/TestDataShort.csv)
 
 add_executable(SMACrossover "SMACrossBacktest.cpp")
