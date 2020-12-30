@@ -149,6 +149,11 @@ double BTBrain::getTotalCommission() const
     return totalCommission;
 }
 
+const vector<double>& BTBrain::getMTMHistory() const
+{
+    return MTMChangeHistory;
+}
+
 void BTBrain::MarkToMarket( const GlobalTimePoint& point )
 {
     PnL = 0.0;
@@ -164,4 +169,5 @@ void BTBrain::MarkToMarket( const GlobalTimePoint& point )
     MTMChange = UPnL + PnL;
     maxGain = MTMChange > maxGain ? MTMChange : maxGain;
     maxDrawdown = MTMChange < maxDrawdown ? MTMChange : maxDrawdown;
+    MTMChangeHistory.push_back( MTMChange );
 }
