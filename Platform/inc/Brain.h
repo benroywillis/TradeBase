@@ -67,13 +67,14 @@ public:
     /// @brief  Processes the input order
     ///
     /// Checks cash, exchange, margin requirements, etc. If the order is filled, the returned pointer is valid. Else the pointer is Null
-    std::vector<Position>  processTrade( const std::pair<Contract, Order>& );
-    std::vector<Position*> getPositions() const;
-    double                 getPnL() const;
-    double                 getUPnL() const;
-    double                 getMTMChange() const;
-    double                 getMaximumGain() const;
-    double                 getMaximumDrawdown() const;
+    std::vector<Position>      processTrade( const std::pair<Contract, Order>& );
+    std::vector<Position*>     getPositions() const;
+    double                     getPnL() const;
+    double                     getUPnL() const;
+    double                     getMTMChange() const;
+    double                     getMaximumGain() const;
+    double                     getMaximumDrawdown() const;
+    const std::vector<double>& getMTMHistory() const;
 
     std::shared_ptr<BTData> Data;
     /// @brief  Strategy that will be implemented in the backtest.
@@ -96,4 +97,6 @@ private:
     double UPnL;
     /// MarkedToMarket Change
     double MTMChange;
+    /// MarkedToMarket History
+    std::vector<double> MTMHistory;
 };

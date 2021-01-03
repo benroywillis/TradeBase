@@ -80,3 +80,46 @@ add_custom_target(
     -i
     ${ALL_SOURCE_FILES}
 )
+
+# install directories can be user defined
+set(INSTALL_LIB_DIR lib CACHE PATH "Installation directory for libraries.")
+set(INSTALL_BIN_DIR bin CACHE PATH "Installation directory for binaries.")
+set(INSTALL_INCLUDE_DIR include CACHE PATH "Installation diretory for header files.")
+set(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH "Installation directory for CMake files.")
+
+# Make relative paths absolute (needed later on)
+foreach(p LIB BIN INCLUDE CMAKE)
+  set(var INSTALL_${p}_DIR)
+  if(NOT IS_ABSOLUTE "${${var}}")
+    set(${var} "${CMAKE_INSTALL_PREFIX}/${${var}}")
+  endif()
+endforeach()
+
+# set up include-directories
+include_directories(
+  "${PROJECT_SOURCE_DIR}"   # to find foo/foo.h
+  "${PROJECT_BINARY_DIR}")  # to find foo/config.h
+
+export(TARGETS TradeBase FILE "${PROJECT_BINARY_DIR}/TradeBaseConfig.cmake")
+export(PACKAGE TradeBase)
+
+# Create the TradeBaseConfig.cmake and TradeBaseConfigVersion files
+file(RELATIVE_PATH REL_INCLUDE_DIR "${INSTALL_CMAKE_DIR}" "${INSTALL_INCLUDE_DIR}")
+# ... for the build tree
+set(CONF_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}" "${PROJECT_BINARY_DIR}")
+configure_file(TradeBaseConfig.cmake.in "${PROJECT_BINARY_DIR}/TradeBaseConfig.cmake" @ONLY)
+# ... for the install tree
+set(CONF_INCLUDE_DIRS "\${TRADEBASE_CMAKE_DIR}/${REL_INCLUDE_DIR}")
+configure_file(TradeBaseConfig.cmake.in "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/TradeBaseConfig.cmake" @ONLY)
+# ... for both
+configure_file(TradeBaseConfigVersion.cmake.in "${PROJECT_BINARY_DIR}/TradeBaseConfigVersion.cmake" @ONLY)
+
+# Install the TradeBaseConfig.cmake and TradeBaseConfigVersion.cmake
+install(FILES
+  "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/TradeBaseConfig.cmake"
+  "${PROJECT_BINARY_DIR}/TradeBaseConfigVersion.cmake"
+  DESTINATION "${INSTALL_CMAKE_DIR}" COMPONENT dev)
+
+# Install the export set for use with the install-tree
+install(EXPORT TradeBaseTargets DESTINATION
+  "${INSTALL_CMAKE_DIR}" COMPONENT dev)

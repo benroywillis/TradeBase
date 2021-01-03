@@ -1,13 +1,13 @@
 file(GLOB SOURCES "*.cpp")
-add_library(TBPlatform SHARED ${SOURCES})
-set_target_properties(TBPlatform
+file(GLOB HEADERS "inc/*.h*")
+add_library(TradeBase SHARED ${SOURCES})
+set_target_properties(TradeBase
     PROPERTIES
     PREFIX "lib"
-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib" 
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+    PUBLIC_HEADER "${HEADERS}"
 )
-target_compile_options(TBPlatform PRIVATE -fPIC)
-target_include_directories(TBPlatform PRIVATE "inc/")
-target_link_libraries(TBPlatform PRIVATE spdlog::spdlog spdlog::spdlog_header_only)
-install(TARGETS TBPlatform
-    LIBRARY DESTINATION lib
-)
+target_compile_options(TradeBase PRIVATE -fPIC)
+target_include_directories(TradeBase PRIVATE "inc/")
+target_link_libraries(TradeBase PRIVATE spdlog::spdlog spdlog::spdlog_header_only)
+install(TARGETS TradeBase EXPORT TradeBaseTargets LIBRARY DESTINATION "${INSTALL_LIB_DIR}" PUBLIC_HEADER DESTINATION "${INSTALL_INCLUDE_DIR}/TradeBase")
