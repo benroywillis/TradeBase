@@ -2,7 +2,6 @@
 #include "DataStruct.h"
 #include "Indicator.h"
 #include "Order.h"
-#include "Util.hpp"
 #include <fstream>
 #include <spdlog/spdlog.h>
 

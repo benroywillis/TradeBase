@@ -1,54 +1,10 @@
 #pragma once
 #include "BackTrader.h"
 #include "Brain.h"
+#include "matplotlibcpp.h"
 #include <iomanip>
 #include <iostream>
 #include <memory>
-
-/// @brief Structure for reading input data that does not have its information internal to it.
-///
-/// Use this input to the BTData class if you have to specify the data characteristics yourself.
-struct InputFile
-{
-    std::string filepath;
-    std::string symbol;
-    std::string secId;
-    std::string secType;
-    std::string exchange;
-    std::string currency;
-    std::string exprDate;
-    bool        candles;
-    bool        snaps;
-    bool        options;
-    /// Candle or Snap constructor
-    InputFile( std::string path, std::string newSym, std::string newSecId, std::string newSecType, std::string newEx, std::string newCur, bool candle = true )
-    {
-        filepath = std::move( path );
-        symbol = std::move( newSym );
-        secId = std::move( newSecId );
-        secType = std::move( newSecType );
-        exchange = std::move( newEx );
-        currency = std::move( newCur );
-        exprDate = "";
-        candles = candle;
-        snaps = !candle;
-        options = false;
-    }
-    /// Options data constructor
-    InputFile( std::string path, std::string newSym, std::string newSecId, std::string newSecType, std::string newEx, std::string newCur, std::string newExprDate )
-    {
-        filepath = path;
-        symbol = newSym;
-        secId = newSecId;
-        secType = newSecType;
-        exchange = newEx;
-        currency = newCur;
-        exprDate = newExprDate;
-        candles = false;
-        snaps = false;
-        options = true;
-    }
-};
 
 /// Helpful for shrinking strategy class codes.
 inline Order getOrder( bool buy, double quant = 1, std::string timeForce = "DAY", std::string oT = "MKT" )
@@ -135,4 +91,10 @@ inline void PrintResults( const std::unique_ptr<BTBrain>& brain )
         }
         std::cout << index->getContract()->symbol << ", " << index->getAvgPrice() << ", " << index->getPositionSize() << std::endl;
     }
+}
+
+inline void PlotResults( const std::unique_ptr<BTBrain>& brain )
+{
+    matplotlibcpp::plot( brain->getMTMHistory() );
+    matplotlibcpp::show();
 }
