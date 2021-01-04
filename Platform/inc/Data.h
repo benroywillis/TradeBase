@@ -76,6 +76,7 @@ public:
     std::optional<const TimeStamp>       getPreviousTime() const;
     std::optional<const GlobalTimePoint> getPreviousPoint() const;
     std::optional<const VectorPoint>     getPreviousVectorPoint( long ) const;
+    const std::vector<std::string>       getTimeVector() const;
 
     std::optional<VectorPoint> lookup( long, bool current = true );
 

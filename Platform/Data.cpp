@@ -393,6 +393,16 @@ optional<const VectorPoint> BTData::getPreviousVectorPoint( long vecId ) const
     return nullopt;
 }
 
+const vector<string> BTData::getTimeVector() const
+{
+    vector<string> TimeVector;
+    for( const auto& key : TimeLine )
+    {
+        TimeVector.push_back( key.first.toString() );
+    }
+    return TimeVector;
+}
+
 shared_ptr<DataArray> BTData::readVector( const string& filepath )
 {
     ifstream csvFile( filepath, ifstream::in );

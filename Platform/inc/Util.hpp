@@ -95,6 +95,6 @@ inline void PrintResults( const std::unique_ptr<BTBrain>& brain )
 
 inline void PlotResults( const std::unique_ptr<BTBrain>& brain )
 {
-    matplotlibcpp::plot( brain->getMTMHistory() );
+    matplotlibcpp::plot( brain->getTimeVector(), brain->getMTMHistory() );
     matplotlibcpp::show();
 }

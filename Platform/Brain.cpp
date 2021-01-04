@@ -149,6 +149,11 @@ const vector<double>& BTBrain::getMTMHistory() const
     return MTMHistory;
 }
 
+const vector<string> BTBrain::getTimeVector() const
+{
+    return Data->getTimeVector();
+}
+
 double BTBrain::getTotalCommission() const
 {
     return totalCommission;
