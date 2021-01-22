@@ -1,6 +1,7 @@
 #include "DataStruct.h"
 
 using namespace std;
+using namespace TradeBase;
 
 DataStruct::DataStruct( CandleStruct candle )
 {

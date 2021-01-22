@@ -7,6 +7,7 @@
 #include <spdlog/spdlog.h>
 
 using namespace std;
+using namespace TradeBase;
 
 Position::Position( const Contract& newContract, const Order& newOrder, const Execution& newExecution ) : contract( make_shared<Contract>( newContract ) )
 {

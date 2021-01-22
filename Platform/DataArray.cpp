@@ -4,6 +4,7 @@
 #include <iterator>
 
 using namespace std;
+using namespace TradeBase;
 
 DataArray::DataArray( long newVecId, long newConId, const string& newSymbol, const string& newSecId, const string& newSecType, const string& newExchange, const string& newCurrency )
 {

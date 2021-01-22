@@ -7,6 +7,7 @@
 #include <spdlog/spdlog.h>
 
 using namespace std;
+using namespace TradeBase;
 
 class LastClose : public BTStrategy
 {

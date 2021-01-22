@@ -8,6 +8,7 @@
 #include <spdlog/spdlog.h>
 
 using namespace std;
+using namespace TradeBase;
 
 constexpr int fast = 5;
 constexpr int slow = 20;

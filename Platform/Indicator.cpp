@@ -2,6 +2,7 @@
 #include "DataStruct.h"
 
 using namespace std;
+using namespace TradeBase;
 
 BTIndicator::BTIndicator( int bufferSize )
 {

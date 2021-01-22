@@ -7,6 +7,7 @@
 #include <utility>
 
 using namespace std;
+using namespace TradeBase;
 
 long BackTrader::conId = 0;
 long BackTrader::orderId = 0;
