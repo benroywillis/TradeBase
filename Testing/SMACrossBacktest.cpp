@@ -13,14 +13,14 @@ using namespace TradeBase;
 constexpr int fast = 5;
 constexpr int slow = 20;
 
-class SMA : public BTIndicator
+class SMA : public TBIndicator
 {
 public:
-    SMA( int bufferSize ) : BTIndicator( bufferSize )
+    SMA( int bufferSize ) : TBIndicator( bufferSize )
     {
     }
 
-    unique_ptr<BTIndicator> clone() const override
+    unique_ptr<TBIndicator> clone() const override
     {
         return make_unique<SMA>( *this );
     }
@@ -46,12 +46,12 @@ public:
     }
 };
 
-class SMACrossover : public BTStrategy
+class SMACrossover : public TBStrategy
 {
 public:
     /// In this strategy, the short SMA is the first indicator index
     /// So the one whose valid needs to be checked is index 1
-    void ProcessNextTick( const set<Position*, positionCompare>& positions, const set<Order, OrderCompare>& openOrders, const shared_ptr<BTData>& D, vector<pair<Contract, Order>>& trades )
+    void ProcessNextTick( const set<Position*, positionCompare>& positions, const set<Order, OrderCompare>& openOrders, const shared_ptr<TBData>& D, vector<pair<Contract, Order>>& trades )
     {
         for( const auto& point : D->getCurrentPoint().Points )
         {
@@ -85,14 +85,14 @@ int main( int argc, char* argv[] )
     auto                           csv = InputFile( "", "AMZN", "CONCYC", "STK", "SMART", "USD" );
     shared_ptr<IBCommissionScheme> morphedScheme = make_shared<IBCommissionScheme>( 0, 0, 0, 0 );
     auto                           conf = Configure( morphedScheme.get(), false );
-    auto                           Indicators = vector<BTIndicator*>();
+    auto                           Indicators = vector<TBIndicator*>();
     auto                           SMAS = make_unique<SMA>( fast );
     auto                           SMAL = make_unique<SMA>( slow );
     Indicators.push_back( SMAS.get() );
     Indicators.push_back( SMAL.get() );
-    auto                   Data = make_shared<BTData>( ReadInputs( argc, argv ), Indicators );
-    shared_ptr<BTStrategy> Strategy = make_shared<SMACrossover>();
-    auto                   Brain = make_unique<BTBrain>( Data, Strategy, conf );
+    auto                   Data = make_shared<TBData>( ReadInputs( argc, argv ), Indicators );
+    shared_ptr<TBStrategy> Strategy = make_shared<SMACrossover>();
+    auto                   Brain = make_unique<TBBrain>( Data, Strategy, conf );
     Brain->run();
     // compare results to those known to be correct
     bool error = false;

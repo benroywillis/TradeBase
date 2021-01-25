@@ -16,7 +16,7 @@ namespace TradeBase
         TimeStamp                                 exprDate;
         std::string                               interval;
         std::list<DataStruct>                     array;
-        std::vector<std::unique_ptr<BTIndicator>> Inds;
+        std::vector<std::unique_ptr<TBIndicator>> Inds;
         DataArray() = default;
         DataArray( long, long, const std::string&, const std::string&, const std::string&, const std::string&, const std::string& );
         DataArray( const DataArray& ) = delete;
@@ -34,7 +34,7 @@ namespace TradeBase
         void                                                 addPoint( OptionStruct& );
         std::optional<std::list<DataStruct>::const_iterator> getLastPoint() const;
 
-        void        addIndicator( BTIndicator* );
+        void        addIndicator( TBIndicator* );
         bool        validIndicators() const;
         std::string getStart( bool fileOutput = false ) const;
         TimeStamp   getStartingTime() const;

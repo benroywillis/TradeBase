@@ -8,24 +8,24 @@
 using namespace std;
 using namespace TradeBase;
 
-BTData::BTData()
+TBData::TBData()
 {
     TimeLine = TimeMap();
     currentTime = TimeLine.begin();
 }
 
-BTData::BTData( InputFile& csv )
+TBData::TBData( InputFile& csv )
 {
     auto newVec = readVector( csv );
     DataArrays.insert( newVec );
     TimeLine = TimeMap();
     currentTime = TimeLine.begin();
-    indicators = vector<BTIndicator*>();
+    indicators = vector<TBIndicator*>();
     processData();
     initTimeLine();
 }
 
-BTData::BTData( InputFile& csv, vector<BTIndicator*>& newIndicators )
+TBData::TBData( InputFile& csv, vector<TBIndicator*>& newIndicators )
 {
     auto newVec = readVector( csv );
     indicators = newIndicators;
@@ -40,7 +40,7 @@ BTData::BTData( InputFile& csv, vector<BTIndicator*>& newIndicators )
     initTimeLine();
 }
 
-BTData::BTData( vector<InputFile>& csvs )
+TBData::TBData( vector<InputFile>& csvs )
 {
     for( auto& csv : csvs )
     {
@@ -49,12 +49,12 @@ BTData::BTData( vector<InputFile>& csvs )
     }
     TimeLine = TimeMap();
     currentTime = TimeLine.begin();
-    indicators = vector<BTIndicator*>();
+    indicators = vector<TBIndicator*>();
     processData();
     initTimeLine();
 }
 
-BTData::BTData( const string& filepath )
+TBData::TBData( const string& filepath )
 {
     auto newVec = readVector( filepath );
     newVec->vectorId = getNextVectorId();
@@ -62,12 +62,12 @@ BTData::BTData( const string& filepath )
     DataArrays.insert( newVec );
     TimeLine = TimeMap();
     currentTime = TimeLine.begin();
-    indicators = vector<BTIndicator*>();
+    indicators = vector<TBIndicator*>();
     processData();
     initTimeLine();
 }
 
-BTData::BTData( const vector<string>& filepaths, const vector<BTIndicator*>& newIndicators )
+TBData::TBData( const vector<string>& filepaths, const vector<TBIndicator*>& newIndicators )
 {
     indicators = newIndicators;
     for( const auto& path : filepaths )
@@ -90,7 +90,7 @@ BTData::BTData( const vector<string>& filepaths, const vector<BTIndicator*>& new
     initTimeLine();
 }
 
-BTData::BTData( const vector<string>& filepaths )
+TBData::TBData( const vector<string>& filepaths )
 {
     for( const auto& path : filepaths )
     {
@@ -101,30 +101,30 @@ BTData::BTData( const vector<string>& filepaths )
     }
     TimeLine = TimeMap();
     currentTime = TimeLine.begin();
-    indicators = vector<BTIndicator*>();
+    indicators = vector<TBIndicator*>();
     processData();
     initTimeLine();
 }
 
-BTData::BTData( shared_ptr<DataArray> newVector )
+TBData::TBData( shared_ptr<DataArray> newVector )
 {
     DataArrays.insert( move( newVector ) );
-    indicators = vector<BTIndicator*>();
+    indicators = vector<TBIndicator*>();
     TimeLine = TimeMap();
     currentTime = TimeLine.begin();
     initTimeLine();
 }
 
-BTData::BTData( const vector<shared_ptr<DataArray>>& newData )
+TBData::TBData( const vector<shared_ptr<DataArray>>& newData )
 {
     DataArrays.insert( begin( newData ), end( newData ) );
     TimeLine = TimeMap();
     currentTime = TimeLine.begin();
-    indicators = vector<BTIndicator*>();
+    indicators = vector<TBIndicator*>();
     initTimeLine();
 }
 
-shared_ptr<DataArray> BTData::readVector( const InputFile& csv )
+shared_ptr<DataArray> TBData::readVector( const InputFile& csv )
 {
     ifstream csvFile( csv.filepath, ifstream::in );
     if( !csvFile.is_open() )
@@ -150,13 +150,13 @@ shared_ptr<DataArray> BTData::readVector( const InputFile& csv )
     return newVec;
 }
 
-void BTData::addData( const shared_ptr<DataArray>& newData )
+void TBData::addData( const shared_ptr<DataArray>& newData )
 {
     DataArrays.insert( newData );
     checkData( newData );
 }
 
-void BTData::checkData( const shared_ptr<DataArray>& newData )
+void TBData::checkData( const shared_ptr<DataArray>& newData )
 {
     if( newData->getStartingTime() != globalStartingTime )
     {
@@ -170,7 +170,7 @@ void BTData::checkData( const shared_ptr<DataArray>& newData )
     // idea: create a global vector of TimeStamp objects with pointers to all data vectors that have data at that time. Fit the new data into this global vector
 }
 
-void BTData::initTimeLine()
+void TBData::initTimeLine()
 {
     // evaluate the boundaries of each vector
     int maxlength = 0;
@@ -198,7 +198,7 @@ void BTData::initTimeLine()
     currentTime = TimeLine.begin();
 }
 
-void BTData::processData()
+void TBData::processData()
 {
     // check the order of each vector and reverse if necessary
     // first index should be the oldest timepoint, last index most recent timepoint
@@ -224,7 +224,7 @@ void BTData::processData()
     // parse data into separate days?
 }
 
-void BTData::findTimeInterval()
+void TBData::findTimeInterval()
 {
     for( const auto& entry : DataArrays )
     {
@@ -282,7 +282,7 @@ void BTData::findTimeInterval()
     }
 }
 
-bool BTData::incrementTime()
+bool TBData::incrementTime()
 {
     // increment global time vector
     currentTime = next( currentTime );
@@ -306,7 +306,7 @@ bool BTData::incrementTime()
     return more;
 }
 
-optional<VectorPoint> BTData::lookup( long conId, bool current )
+optional<VectorPoint> TBData::lookup( long conId, bool current )
 {
     if( current )
     {
@@ -333,17 +333,17 @@ optional<VectorPoint> BTData::lookup( long conId, bool current )
     return nullopt;
 }
 
-const TimeStamp& BTData::getCurrentTime() const
+const TimeStamp& TBData::getCurrentTime() const
 {
     return currentTime->first;
 }
 
-const GlobalTimePoint& BTData::getCurrentPoint() const
+const GlobalTimePoint& TBData::getCurrentPoint() const
 {
     return currentTime->second;
 }
 
-optional<const VectorPoint> BTData::getCurrentVectorPoint( long vecId ) const
+optional<const VectorPoint> TBData::getCurrentVectorPoint( long vecId ) const
 {
     for( const auto& point : currentTime->second.Points )
     {
@@ -355,7 +355,7 @@ optional<const VectorPoint> BTData::getCurrentVectorPoint( long vecId ) const
     return nullopt;
 }
 
-optional<const TimeStamp> BTData::getPreviousTime() const
+optional<const TimeStamp> TBData::getPreviousTime() const
 {
     if( currentTime != TimeLine.begin() )
     {
@@ -364,7 +364,7 @@ optional<const TimeStamp> BTData::getPreviousTime() const
     return nullopt;
 }
 
-optional<const GlobalTimePoint> BTData::getPreviousPoint() const
+optional<const GlobalTimePoint> TBData::getPreviousPoint() const
 {
     if( currentTime == TimeLine.begin() )
     {
@@ -373,7 +373,7 @@ optional<const GlobalTimePoint> BTData::getPreviousPoint() const
     return make_optional<const GlobalTimePoint>( prev( currentTime )->second );
 }
 
-optional<const VectorPoint> BTData::getPreviousVectorPoint( long vecId ) const
+optional<const VectorPoint> TBData::getPreviousVectorPoint( long vecId ) const
 {
     if( currentTime == TimeLine.begin() )
     {
@@ -394,7 +394,7 @@ optional<const VectorPoint> BTData::getPreviousVectorPoint( long vecId ) const
     return nullopt;
 }
 
-const vector<string> BTData::getTimeVector() const
+const vector<string> TBData::getTimeVector() const
 {
     vector<string> TimeVector;
     for( const auto& key : TimeLine )
@@ -404,7 +404,7 @@ const vector<string> BTData::getTimeVector() const
     return TimeVector;
 }
 
-shared_ptr<DataArray> BTData::readVector( const string& filepath )
+shared_ptr<DataArray> TBData::readVector( const string& filepath )
 {
     ifstream csvFile( filepath, ifstream::in );
     if( !csvFile.is_open() )
@@ -492,7 +492,7 @@ shared_ptr<DataArray> BTData::readVector( const string& filepath )
     return newVector;
 }
 
-void BTData::ReadCandleData( ifstream& csvFile, string& headerLine, list<DataStruct>& data )
+void TBData::ReadCandleData( ifstream& csvFile, string& headerLine, list<DataStruct>& data )
 {
     // evaluate column header names
     int openCol = -1;
@@ -596,7 +596,7 @@ void BTData::ReadCandleData( ifstream& csvFile, string& headerLine, list<DataStr
     }
 }
 
-void BTData::ReadSnapData( ifstream& csvFile, string& headerLine, list<DataStruct>& data )
+void TBData::ReadSnapData( ifstream& csvFile, string& headerLine, list<DataStruct>& data )
 {
     // evaluate column headers first
     int            timeCol = -1;
@@ -693,7 +693,7 @@ void BTData::ReadSnapData( ifstream& csvFile, string& headerLine, list<DataStruc
     }
 }
 
-void BTData::ReadOptionData( ifstream& csvFile, string& headerLine, list<DataStruct>& data )
+void TBData::ReadOptionData( ifstream& csvFile, string& headerLine, list<DataStruct>& data )
 {
     // evaluate column headers
     int timeCol = -1;
@@ -920,7 +920,7 @@ void BTData::ReadOptionData( ifstream& csvFile, string& headerLine, list<DataStr
     }
 }
 
-void BTData::printCSVs()
+void TBData::printCSVs()
 {
     for( const auto& vec : DataArrays )
     {

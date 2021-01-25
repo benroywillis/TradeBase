@@ -6,8 +6,8 @@
 
 namespace TradeBase
 {
-    class BTStrategy;
-    class BTData;
+    class TBStrategy;
+    class TBData;
 
     /// Structure only considers conId because orderIds will always be unique
     struct OrderCompare
@@ -57,12 +57,12 @@ namespace TradeBase
         ~Configure() = default;
     };
 
-    class BTBrain : public BackTrader
+    class TBBrain : public BackTrader
     {
     public:
         /// Constructor for most use cases
-        BTBrain( const std::shared_ptr<BTData>&, const std::shared_ptr<BTStrategy>&, const Configure& );
-        ~BTBrain() = default;
+        TBBrain( const std::shared_ptr<TBData>&, const std::shared_ptr<TBStrategy>&, const Configure& );
+        ~TBBrain() = default;
         /// @brief  Facilitates backtesting
         void   run();
         double getTotalCommission() const;
@@ -79,10 +79,10 @@ namespace TradeBase
         const std::vector<double>&     getMTMHistory() const;
         const std::vector<std::string> getTimeVector() const;
 
-        std::shared_ptr<BTData> Data;
+        std::shared_ptr<TBData> Data;
         /// @brief  Strategy that will be implemented in the backtest.
         /// @todo   Needs to be vectorized.
-        std::shared_ptr<BTStrategy> Strategy;
+        std::shared_ptr<TBStrategy> Strategy;
 
     private:
         void                                 update( const Position& );

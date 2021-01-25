@@ -75,7 +75,7 @@ namespace TradeBase
         }
     }
 
-    inline void PrintResults( const std::unique_ptr<BTBrain>& brain )
+    inline void PrintResults( const std::unique_ptr<TBBrain>& brain )
     {
         std::cout << std::fixed << std::setprecision( 2 );
         std::cout << "Total commission was " << brain->getTotalCommission() << std::endl;
@@ -95,7 +95,7 @@ namespace TradeBase
         }
     }
 
-    inline void PlotResults( const std::unique_ptr<BTBrain>& brain )
+    inline void PlotResults( const std::unique_ptr<TBBrain>& brain )
     {
         matplotlibcpp::plot( brain->getTimeVector(), brain->getMTMHistory() );
         matplotlibcpp::show();

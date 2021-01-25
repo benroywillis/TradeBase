@@ -13,14 +13,14 @@ long BackTrader::conId = 0;
 long BackTrader::orderId = 0;
 long BackTrader::vectorId = 9000;
 
-BTBrain::BTBrain( const shared_ptr<BTData>& newData, const shared_ptr<BTStrategy>& newStrategy, const Configure& conf )
+TBBrain::TBBrain( const shared_ptr<TBData>& newData, const shared_ptr<TBStrategy>& newStrategy, const Configure& conf )
 {
     Strategy = newStrategy;
     Data = newData;
     scheme = conf.scheme;
 }
 
-void BTBrain::run()
+void TBBrain::run()
 {
     auto trades = vector<pair<Contract, Order>>();
     auto openOrders = set<Order, OrderCompare>();
@@ -46,7 +46,7 @@ void BTBrain::run()
     } while( Data->incrementTime() );
 }
 
-void BTBrain::update( const Position& newPosition )
+void TBBrain::update( const Position& newPosition )
 {
     auto samePos = positions.find( newPosition.getContract()->conId );
     if( samePos != positions.end() )
@@ -64,7 +64,7 @@ void BTBrain::update( const Position& newPosition )
     }
 }
 
-vector<Position> BTBrain::processTrade( const pair<Contract, Order>& p )
+vector<Position> TBBrain::processTrade( const pair<Contract, Order>& p )
 {
     vector<Position> returnVec;
     auto             con = p.first;
@@ -82,7 +82,7 @@ vector<Position> BTBrain::processTrade( const pair<Contract, Order>& p )
     return returnVec;
 }
 
-optional<Execution> BTBrain::Execute( const Contract& cont, const Order& ord, double costBasis )
+optional<Execution> TBBrain::Execute( const Contract& cont, const Order& ord, double costBasis )
 {
     double newCostBasis;
     double tradeCommission;
@@ -114,7 +114,7 @@ optional<Execution> BTBrain::Execute( const Contract& cont, const Order& ord, do
     return newExec;
 }
 
-optional<double> BTBrain::getPrice( const Contract& con )
+optional<double> TBBrain::getPrice( const Contract& con )
 {
     auto point = Data->lookup( con.conId );
     if( point )
@@ -124,43 +124,43 @@ optional<double> BTBrain::getPrice( const Contract& con )
     return nullopt;
 }
 
-double BTBrain::getMaximumGain() const
+double TBBrain::getMaximumGain() const
 {
     return maxGain;
 }
 
-double BTBrain::getMaximumDrawdown() const
+double TBBrain::getMaximumDrawdown() const
 {
     return maxDrawdown;
 }
 
-std::vector<Position*> BTBrain::getPositions() const
+std::vector<Position*> TBBrain::getPositions() const
 {
     vector<Position*> returnVec( positions.begin(), positions.end() );
     return returnVec;
 }
 
-double BTBrain::getMTMChange() const
+double TBBrain::getMTMChange() const
 {
     return MTMChange;
 }
 
-const vector<double>& BTBrain::getMTMHistory() const
+const vector<double>& TBBrain::getMTMHistory() const
 {
     return MTMHistory;
 }
 
-const vector<string> BTBrain::getTimeVector() const
+const vector<string> TBBrain::getTimeVector() const
 {
     return Data->getTimeVector();
 }
 
-double BTBrain::getTotalCommission() const
+double TBBrain::getTotalCommission() const
 {
     return totalCommission;
 }
 
-void BTBrain::MarkToMarket( const GlobalTimePoint& point )
+void TBBrain::MarkToMarket( const GlobalTimePoint& point )
 {
     PnL = 0.0;
     for( const auto& pos : positions )

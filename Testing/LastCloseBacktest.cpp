@@ -9,12 +9,12 @@
 using namespace std;
 using namespace TradeBase;
 
-class LastClose : public BTStrategy
+class LastClose : public TBStrategy
 {
 public:
     LastClose() = default;
     /// @brief Runs private methods on new data
-    void ProcessNextTick( const set<Position*, positionCompare>& positions, const set<Order, OrderCompare>& openOrders, const shared_ptr<BTData>& D, vector<pair<Contract, Order>>& trades )
+    void ProcessNextTick( const set<Position*, positionCompare>& positions, const set<Order, OrderCompare>& openOrders, const shared_ptr<TBData>& D, vector<pair<Contract, Order>>& trades )
     {
         for( const auto& point : D->getCurrentPoint().Points )
         {
@@ -46,9 +46,9 @@ int main( int argc, char* argv[] )
 {
     unique_ptr<IBCommissionScheme> morphedScheme = make_unique<IBCommissionScheme>( 0, 0, 0, 0 );
     auto                           conf = Configure( morphedScheme.get(), true );
-    auto                           Data = make_shared<BTData>( ReadInputs( argc, argv ) );
-    shared_ptr<BTStrategy>         Strategy = make_shared<LastClose>();
-    auto                           Brain = make_unique<BTBrain>( Data, Strategy, conf );
+    auto                           Data = make_shared<TBData>( ReadInputs( argc, argv ) );
+    shared_ptr<TBStrategy>         Strategy = make_shared<LastClose>();
+    auto                           Brain = make_unique<TBBrain>( Data, Strategy, conf );
     Brain->run();
     // compare results to those known to be correct
     bool error = false;

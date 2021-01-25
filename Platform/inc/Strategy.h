@@ -8,7 +8,7 @@
 namespace TradeBase
 {
     class Position;
-    class BTData;
+    class TBData;
     struct Order;
     struct Contract;
 
@@ -16,12 +16,12 @@ namespace TradeBase
     ///
     /// Not meant to be constructed.
     /// Its template should be used for every strategy developed.
-    class BTStrategy : public BackTrader
+    class TBStrategy : public BackTrader
     {
     public:
-        BTStrategy() = default;
-        ~BTStrategy() = default;
-        virtual void ProcessNextTick( const std::set<Position*, positionCompare>&, const std::set<Order, OrderCompare>&, const std::shared_ptr<BTData>&, std::vector<std::pair<Contract, Order>>& )
+        TBStrategy() = default;
+        ~TBStrategy() = default;
+        virtual void ProcessNextTick( const std::set<Position*, positionCompare>&, const std::set<Order, OrderCompare>&, const std::shared_ptr<TBData>&, std::vector<std::pair<Contract, Order>>& )
         {
         }
     };

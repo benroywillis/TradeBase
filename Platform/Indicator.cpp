@@ -4,7 +4,7 @@
 using namespace std;
 using namespace TradeBase;
 
-BTIndicator::BTIndicator( int bufferSize )
+TBIndicator::TBIndicator( int bufferSize )
 {
     buffLength = bufferSize;
     buffer = vector<DataStruct>( bufferSize );
@@ -13,12 +13,12 @@ BTIndicator::BTIndicator( int bufferSize )
     valid = false;
 }
 
-std::unique_ptr<BTIndicator> BTIndicator::clone() const
+std::unique_ptr<TBIndicator> TBIndicator::clone() const
 {
-    return make_unique<BTIndicator>( *this );
+    return make_unique<TBIndicator>( *this );
 }
 
-void BTIndicator::update( const DataStruct& newPoint )
+void TBIndicator::update( const DataStruct& newPoint )
 {
     buffPos = buffPos % buffLength;
     buffer[buffPos] = newPoint;
@@ -33,12 +33,12 @@ void BTIndicator::update( const DataStruct& newPoint )
     }
 }
 
-bool BTIndicator::isValid() const
+bool TBIndicator::isValid() const
 {
     return valid;
 }
 
-double BTIndicator::getIndicator() const
+double TBIndicator::getIndicator() const
 {
     return currentValue;
 }

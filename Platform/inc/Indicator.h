@@ -9,13 +9,13 @@ namespace TradeBase
     struct DataStruct;
     class DataArray;
 
-    class BTIndicator : public BackTrader
+    class TBIndicator : public BackTrader
     {
         friend class DataArray;
 
     public:
-        BTIndicator( int bufferSize );
-        virtual ~BTIndicator() = default;
+        TBIndicator( int bufferSize );
+        virtual ~TBIndicator() = default;
         /// Updates the indicator with a new value
         virtual void update( const DataStruct& );
         /// Returns the current value of the indicator
@@ -27,7 +27,7 @@ namespace TradeBase
         double currentValue;
 
         /// Cloning methods to preserve polymorphism
-        virtual std::unique_ptr<BTIndicator> clone() const;
+        virtual std::unique_ptr<TBIndicator> clone() const;
 
     protected:
         /// Most recent update of the underlying contract price

@@ -44,28 +44,28 @@ namespace TradeBase
 
     typedef std::map<TimeStamp, GlobalTimePoint> TimeMap;
 
-    class BTData : public BackTrader
+    class TBData : public BackTrader
     {
     public:
-        BTData();
+        TBData();
         /// @brief Constructor for a filepath
         ///
         /// Use this constructor for input data files that have all their information within the file itself (before the data column headers).
-        BTData( const std::string& );
+        TBData( const std::string& );
         /// Vector version of above
-        BTData( const std::vector<std::string>& );
-        BTData( const std::vector<std::string>&, const std::vector<BTIndicator*>& );
+        TBData( const std::vector<std::string>& );
+        TBData( const std::vector<std::string>&, const std::vector<TBIndicator*>& );
         /// Use this constructor if you have a data file that does not have its information above the data column headers.
-        BTData( InputFile& );
-        BTData( InputFile&, std::vector<BTIndicator*>& );
+        TBData( InputFile& );
+        TBData( InputFile&, std::vector<TBIndicator*>& );
         /// Vector version of above.
-        BTData( std::vector<InputFile>& );
+        TBData( std::vector<InputFile>& );
         /// Use this constructor for data vectors that are already being collected.
-        BTData( std::shared_ptr<DataArray> );
+        TBData( std::shared_ptr<DataArray> );
         /// Vector version of above
-        BTData( const std::vector<std::shared_ptr<DataArray>>& );
+        TBData( const std::vector<std::shared_ptr<DataArray>>& );
 
-        ~BTData() = default;
+        ~TBData() = default;
 
         void addData( const std::shared_ptr<DataArray>& );
 
@@ -108,7 +108,7 @@ namespace TradeBase
         TimeStamp         globalEndingTime;
 
         /// Vector of indicators to add to every data vector that may be created
-        std::vector<BTIndicator*> indicators;
+        std::vector<TBIndicator*> indicators;
         int                       timeLength;
 
         void processData();

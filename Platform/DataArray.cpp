@@ -17,7 +17,7 @@ DataArray::DataArray( long newVecId, long newConId, const string& newSymbol, con
     contract.exchange = newExchange;
     contract.currency = newCurrency;
     array = list<DataStruct>();
-    Inds = vector<unique_ptr<BTIndicator>>();
+    Inds = vector<unique_ptr<TBIndicator>>();
     length = array.size();
 }
 
@@ -92,7 +92,7 @@ optional<list<DataStruct>::const_iterator> DataArray::getLastPoint() const
     return nullopt;
 }
 
-void DataArray::addIndicator( BTIndicator* newInd )
+void DataArray::addIndicator( TBIndicator* newInd )
 {
     Inds.push_back( newInd->clone() );
 }
