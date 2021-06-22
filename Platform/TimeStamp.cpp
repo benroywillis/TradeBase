@@ -104,6 +104,7 @@ TimeStamp::TimeStamp( bool precise )
 
 TimeStamp::TimeStamp( const string& barTime, bool exprDate )
 {
+    // TODO: futures expiration dates don't need to include the day, so this needs to be generalized for that
     /// time format is yyyymmdd  hh:mm:ss (one white space [in the case of input csv files] or two white spaces [in the case of historical bar data from IB])
     // find # of white spaces (can be 1 or two)
     size_t whitespace = barTime.find( ' ' );

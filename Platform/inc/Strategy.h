@@ -1,6 +1,5 @@
 #pragma once
 #include "BackTrader.h"
-#include "Brain.h"
 #include <memory>
 #include <optional>
 #include <vector>
