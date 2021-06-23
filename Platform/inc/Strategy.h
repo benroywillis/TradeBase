@@ -2,6 +2,7 @@
 #include "BackTrader.h"
 #include <memory>
 #include <optional>
+#include <set>
 #include <vector>
 
 namespace TradeBase
@@ -10,7 +11,8 @@ namespace TradeBase
     class TBData;
     struct Order;
     struct Contract;
-
+    struct OrderCompare;
+    struct positionCompare;
     /// @brief Parent class of all strategies
     ///
     /// Not meant to be constructed.
